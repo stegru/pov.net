@@ -24,7 +24,7 @@ namespace PovSceneTests.SceneDescription.Items.Values
                 (
                     "round",
                     () => new Vector(0.12345, 1 / 3.0, 0.1),
-                    @"<0.12345, 0.333333333333333, 0.1>"
+                    $"<0.12345, {1/3.0}, 0.1>"
                 ),
                 (
                     "cast",

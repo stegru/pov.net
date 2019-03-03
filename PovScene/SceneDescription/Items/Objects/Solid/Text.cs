@@ -43,11 +43,12 @@
             this.Thickness = thickness;
             this.Offset = offset;
         }
-        
+
         /// <summary>
         /// Searches within the font directory for the full path of a font file
         /// </summary>
-        /// <param name="file"></param>
+        /// <param name="file">The file to find.</param>
+        /// <param name="searchPath">The path from which to search.</param>
         /// <returns>The full path to the font file, or null.</returns>
         private string FindFontPath(string file, string searchPath = null)
         {

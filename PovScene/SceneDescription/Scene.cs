@@ -6,7 +6,6 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using System.Threading.Tasks;
     using Engine;
     using Items;
     using Items.ObjectModifiers;
@@ -77,8 +76,6 @@
             this.Animation = animation;
         }
 
-        private Func<Scene, Task<int>> render;
-
         /// <summary>
         /// Generate the scene file.
         /// </summary>
@@ -108,7 +105,7 @@
             {
                 this.IncludeDirectives.Directives.Add(Directive.Include(includeFile));
             }
-            context.LoadChildren();
+            context?.LoadChildren();
 
             this.GenerateDependentScenes();
 

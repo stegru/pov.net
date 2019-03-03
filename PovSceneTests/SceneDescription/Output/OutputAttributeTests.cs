@@ -2,6 +2,7 @@ namespace PovSceneTests.SceneDescription.Output
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using PovScene.SceneDescription.Output;
     using Xunit;
@@ -51,11 +52,7 @@ namespace PovSceneTests.SceneDescription.Output
 
             IEnumerable<TestOutputAttribute> attrs = propertyInfo.GetAllAttributes<TestOutputAttribute>();
 
-            List<string> actual = new List<string>();
-            foreach (TestOutputAttribute attr in attrs)
-            {
-                actual.Add(attr.Value);
-            }
+            List<string> actual = attrs.Select(attr => attr.Value).ToList();
 
             IEnumerable<string> expected = new[]
             {

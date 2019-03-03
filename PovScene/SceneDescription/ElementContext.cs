@@ -35,7 +35,6 @@
         public bool Active { get; set; } = true;
 
         private int order;
-        private int childCount;
 
         public string FullName
         {
@@ -69,7 +68,6 @@
             this.Scene = element as Scene ?? this.Parent.Scene;
             if (this.Parent != null)
             {
-                this.Parent.childCount++;
             }
 
             this.OutputAttribute = outputAttribute ?? OutputAttribute.Default();

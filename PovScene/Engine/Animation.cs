@@ -64,6 +64,7 @@
         /// <param name="scene">The scene to render.</param>
         /// <param name="length">The number of frames.</param>
         /// <param name="povray">The renderer.</param>
+        /// <param name="options">Povray options.</param>
         public Animation(Scene scene, int length, Povray povray = null, PovrayOptions options = null)
         {
             this.Length = length;
@@ -196,7 +197,7 @@
             
             if (this.DoubleBack)
             {
-                string imageExtension = Path.GetExtension(frameImages[0]).Substring(1);
+                string imageExtension = Path.GetExtension(frameImages[0])?.Substring(1);
                 string filenameFormat = this.GetFrameFormat(baseFilename, imageExtension);
                 
                 // Repeat the frames, in reverse order.
@@ -213,7 +214,7 @@
                 {
                     string newFile = string.Format(filenameFormat, frame);
 
-                    string args = string.Format("-s -f {0} {1}", frameImage, newFile);
+                    string args = $"-s -f {frameImage} {newFile}";
                     Process.Start("ln", args)?.WaitForExit();
 
                     frameImages.Add(newFile);
@@ -234,7 +235,6 @@
         /// Renders the animated scene to a movie.
         /// </summary>
         /// <param name="outputFile">The movie file</param>
-        /// <param name="options">Render options</param>
         /// <param name="ffmpegGlobalOptions">Global options for ffmpeg.</param>
         /// <param name="ffmpegInfileOptions">"infile" options for ffmpeg.</param>
         /// <param name="ffmpegOutfileOptions">"outfile" options for ffmpeg.</param>
@@ -254,7 +254,7 @@
             
             string[] frameImages = this.RenderFrames(baseFilename, frames);
 
-            string imageExtension = Path.GetExtension(frames[0].FileOutput.OutputFileName).Substring(1);
+            string imageExtension = Path.GetExtension(frames[0].FileOutput.OutputFileName)?.Substring(1);
             
             bool sparse = this.IncludeExisting || this.FrameIncrement != 1;
             string imageFormat = this.GetFrameFormat(baseFilename, imageExtension, true, sparse);
@@ -291,7 +291,7 @@
             
             Console.WriteLine("FFMPEG: ffmpeg {0}", commandLine);
             Process process = Process.Start("ffmpeg", commandLine);
-            process.WaitForExit();
+            process?.WaitForExit();
 
             return outputFile;
         }

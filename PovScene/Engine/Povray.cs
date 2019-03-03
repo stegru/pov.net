@@ -67,7 +67,6 @@
         }
 
         /// <summary>Start povray using the given ini file.</summary>
-        /// <param name="iniFile">Path of the ini file.</param>
         /// <returns></returns>
         private bool Render(params string[] args)
         {

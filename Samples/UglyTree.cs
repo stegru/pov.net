@@ -14,23 +14,31 @@
 
     public class UglyTree : Union
     {
+        private Scene scene;
 
-        public UglyTree()
+        public UglyTree(Scene scene)
         {
+            this.scene = scene;
             Cylinder trunk = new Cylinder((0,0,0), (0,10,0), 1);
             this.Add(trunk);
-            this.Branch(trunk, 5);
-            this.Branch(trunk, 5);
-            this.Branch(trunk, 5);
-            this.Branch(trunk, 5);
+            this.AddBranches(trunk, 5);
+            this.Texture = Library.Textures.DarkWood;
             
-            this.Texture = Library.Textures.CherryWood;
             this.Scale(0.1);
         }
 
-        public void Branch(Cylinder parent, Float size)
+        private void AddBranches(Cylinder parentBranch, Float size)
+        {
+            for (int n = 0; n < this.scene.Random.Int(2, 5); n++)
+            {
+                this.Branch(parentBranch, size);
+            }
+        }
+
+        private void Branch(Cylinder parent, Float size)
         {
             Cylinder branch = new Cylinder();
+            branch.Texture = Library.Textures.DarkWood;
             Vector end = (new PovRandom().Vector() + (-0.5, 0, -0.5)) * (size * 3) ;
             
             branch.BasePoint = parent.CapPoint;
@@ -42,28 +50,23 @@
             size = size * 0.5;
             if (size > 1)
             {
-                Branch(branch, size);
-                Branch(branch, size);
-                Branch(branch, size);
-                Branch(branch, size);
-                Branch(branch, size);
+                this.AddBranches(branch, size);
             }
         }
-
 
         public static void Render()
         {
             Scene scene = new Scene();
 
-//            for (int x = -5; x < 5; x++)
-//            {
-//                for (int z = 0; z < 5; z++)
-//                {
-//                    UglyTree tree = new UglyTree();
-//                    tree.Translate(x * 2, 0, z * 2);
-//                    scene.Add(tree);
-//                }
-//            }
+            for (int x = -5; x < 5; x++)
+            {
+                for (int z = 0; z < 5; z++)
+                {
+                    UglyTree tree = new UglyTree(scene);
+                    tree.Translate(x * 2, 0, z * 2);
+                    scene.Add(tree);
+                }
+            }
 
 
             scene.Camera = new Camera((2, 4, -7), (0, 1.5, 0))
@@ -105,7 +108,7 @@
             scene.PovrayOptions.Tracing.Antialias = true;
             scene.PovrayOptions.DisplayOutput.PauseWhenDone = true;
             scene.PovrayOptions.DisplayOutput.Display = true;
-            scene.PovrayOptions.FileOutput.OutputFileName = "yo.png";
+            scene.PovrayOptions.FileOutput.OutputFileName = "uglytree.png";
 
             scene.Write();
             Povray pv = new Povray();            

@@ -19,7 +19,7 @@
         /// <summary>true if this element has a value.</summary>
         [Ignore] public bool HasValue => true;
 
-        public string Id { get; private set; }
+        public string Id { get; }
 
         private static readonly IDictionary<string, int> Ids = new ConcurrentDictionary<string, int>();
 
@@ -164,9 +164,6 @@
         /// <returns>Enumeration of elements.</returns>
         public virtual IEnumerable<ElementContext> GetElements(ElementContext parent)
         {
-            List<ElementContext> elems = new List<ElementContext>();
-
-
             IEnumerable<(object, OutputAttribute)> values =
                 this.GetValues(parent)
                     .Concat(this.GetAdditionalValues());
@@ -456,7 +453,7 @@
             {
                 case Enum _:
                     KeywordAttribute attr =
-                        value.GetType().GetField(value.ToString()).GetCustomAttributeFast<KeywordAttribute>();
+                        value.GetType().GetField(value.ToString()!).GetCustomAttributeFast<KeywordAttribute>();
                     
                     if (attr != null)
                     {

@@ -87,7 +87,6 @@
         
         public string ToString(bool? useConstant)
         {
-            string value;
             if (useConstant == true)
             {
                 if (this == X)
@@ -294,7 +293,7 @@
 
         public override string ToString()
         {
-            return string.Format("<{1}, {2}>", this.u, this.v);
+            return $"<{this.u}, {this.v}>";
         }
 
         public bool Equals(Vector2D other)

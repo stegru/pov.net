@@ -34,7 +34,6 @@
 
         protected override IEnumerable<(object value, OutputAttribute output)> GetAdditionalValues()
         {
-            int order = 0;
             return this.BlobItems.Select(item =>
             {
                 OutputAttribute output = new OutputAttribute()

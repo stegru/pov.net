@@ -28,38 +28,31 @@ namespace Samples
         
         public HelloWorld()
         {
-            this.GlobalSettings.Radiosity = new GlobalSettings.RadiositySettings
+            Scene scene = new Scene
             {
-                PretraceStart = 1,
-                PretraceEnd = 1,                
-                ErrorBound =  0.25,
-                RecursionLimit = 1,
-                Normal = true,
-                Brightness = 2                
+                // Point a camera to the middle of the world.
+                Camera = new Camera((2, 1, -7), (0, 1.5, 0)) {FocalPoint = (0, 1.5, 0), BlurSamples = 50}
             };
 
-            this.Camera = new Camera((2, 1, -7), (0, 1.5, 0))
-            {
-                FocalPoint = (0,1.5,0),
-                BlurSamples = 50
-            };
-
-            this.Add(new LightSource.Area((5, 9, -6))
+            // Add a light.
+            scene.Add(new LightSource.Area((5, 9, -6))
             {
                 FadeDistance = 6,
                 FadePower = 2
             });
 
-            this.Add(new Plane(Vector.Y)
+            // Lay the checkered floor
+            scene.Add(new Plane(Vector.Y)
             {
-                Pigment = new Pattern.Checker(Colors.Black, Colors.White),
+                Pigment = new Pattern.Checker(Colors.Blue, Colors.White),
                 Finish = 
                 {
                     Reflection = 0.02
                 }               
             });
 
-            this.Add(new Sphere((0, 2.5, 0), 2)
+            // Float the mirror ball.
+            scene.Add(new Sphere((0, 2.5, 0), 2)
             {
                 Pigment = (0.1, 0.1, 0.1),
                 Finish = new Finish
@@ -74,12 +67,26 @@ namespace Samples
                     Diffuse = 0.25
                 }
             });
-
             
-            this.PovrayOptions.DisplayOutput.PauseWhenDone = true;
-            this.PovrayOptions.DisplayOutput.Display = true;
-            this.PovrayOptions.Tracing.Quality = 11;
-            this.PovrayOptions.Tracing.Antialias = true;
+            scene.GlobalSettings.Radiosity = new GlobalSettings.RadiositySettings
+            {
+                PretraceStart = 1,
+                PretraceEnd = 1,                
+                ErrorBound =  0.25,
+                RecursionLimit = 1,
+                Normal = true,
+                Brightness = 2                
+            };
+
+            scene.PovrayOptions.DisplayOutput.PauseWhenDone = true;
+            scene.PovrayOptions.DisplayOutput.Display = true;
+            scene.PovrayOptions.Tracing.Quality = 11;
+            scene.PovrayOptions.Tracing.Antialias = true;
+
+            // Render it
+            Povray povray = new Povray();
+            povray.Render(scene);
+
         }
     }
 }

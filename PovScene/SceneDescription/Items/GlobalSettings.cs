@@ -89,7 +89,7 @@
             public Float Brightness { get;set;}
 
             [ValueElement(Keyword.Count)]
-            protected int?[] CountOutput => new int?[] {this.Count, this.CountTotal};
+            protected int?[] CountOutput => new[] {this.Count, this.CountTotal};
             public int? Count { get;set;} 
             public int? CountTotal { get;set;}
             
